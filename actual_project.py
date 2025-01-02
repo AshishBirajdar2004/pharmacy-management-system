@@ -104,7 +104,7 @@ def update_medicine_price():
 # Function to delete a customer
 def delete_customer():
     customer_name = entry_delete_customer_name.get()
-    query = "DELETE FROM Customers WHERE customer_name = %s"
+    query = "DELETE FROM Customers WHERE customer_id = %s"
     cursor.execute(query, (customer_name,))
     db_connection.commit()
     messagebox.showinfo("Success", "Customer deleted!")
@@ -121,6 +121,7 @@ def delete_medicine():
 
 # Function to find medicines low in stock
 def find_low_stock():
+
     query = "SELECT medicine_name, quantity FROM Medicines WHERE quantity < %s"
     low_stock_threshold = int(entry_low_stock.get())
     cursor.execute(query, (low_stock_threshold,))
@@ -129,6 +130,7 @@ def find_low_stock():
 
 # Function to list medicines expiring soon
 def find_expiring_medicines():
+    
     query = "SELECT medicine_name, expiry_date FROM Medicines WHERE expiry_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL %s MONTH)"
     months = int(entry_expiry_months.get())
     cursor.execute(query, (months,))
@@ -137,6 +139,7 @@ def find_expiring_medicines():
 
 # Function to generate total sales and revenue report
 def get_sales_report():
+  
     start_date = entry_start_date.get()
     end_date = entry_end_date.get()
     query = """SELECT COUNT(sale_id) AS total_sales, SUM(total_price) AS total_revenue
